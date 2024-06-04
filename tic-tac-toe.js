@@ -14,10 +14,10 @@ const gameBoard = (function () {
     const getBoard = () => board;
 
     const dropToken = (row, column, player) => {
-        if (board[row][column] < 1) return;
+        if (board[row][column].getValue() > 0) return false;
 
         board[row][column].addToken(player);
-        alert(board[row][column].getValue());
+        return true;
     }
 
     const printBoard = () => {
@@ -44,7 +44,12 @@ const gameBoard = (function () {
         }
     }
 
-    return {createBoard, getBoard, dropToken, printBoard, checkWin};
+    const checkTie = () => {
+        const hasEmptyCell = board.some(row => row.some(cell => cell.getValue() === 0));
+        return !hasEmptyCell;
+    }
+
+    return {createBoard, getBoard, dropToken, printBoard, checkWin, checkTie};
 })();
 
 
@@ -89,17 +94,25 @@ const gameController = (function (playerOneName = "Player One", playerTwoName = 
     }
 
     const playRound = (row, column) => {
-        console.log(`Dropping ${getActivePlayer().name} into row ${row + 1} and column ${column + 1}.`);
-        gameBoard.dropToken(row, column, getActivePlayer().token);
 
-        if (gameBoard.checkWin(getActivePlayer().token)) {
-            console.log(`${getActivePlayer().name} wins!`);
-            gameBoard.createBoard();
-            return;
+        if (gameBoard.dropToken(row, column, getActivePlayer().token)) {
+            console.log(`Dropping ${getActivePlayer().name} into row ${row + 1} and column ${column + 1}.`);
+
+            if (gameBoard.checkWin(getActivePlayer().token)) {
+                console.log(`${getActivePlayer().name} wins!`);
+                gameBoard.createBoard();
+                return;
+            }
+    
+            else if (gameBoard.checkTie()) {
+                console.log("It's a tie!");
+                gameBoard.createBoard();
+                return;
+            }
+    
+            switchPlayerTurn();
+            printNewRound();
         }
-
-        switchPlayerTurn();
-        printNewRound();
     };
 
     printNewRound();
