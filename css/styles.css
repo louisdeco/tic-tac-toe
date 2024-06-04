@@ -97,4 +97,12 @@ dialog {
     align-items: center;
     padding: var(--spacing-xs) var(--spacing-s);
     font-weight: 450;
+    gap: var(--spacing-s);
+}
+
+.icon {
+    background-image: url(../assets/icons/github.svg);
+    height: 1.5rem;
+    width: 1.5rem;
+    flex-shrink: 0;
 }
