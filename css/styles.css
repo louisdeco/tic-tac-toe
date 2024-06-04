@@ -58,12 +58,14 @@ dialog {
 :root {
     font-family: "Rubik", sans-serif;
     --background-color: white;
+    --cell-background-color: #f2f2f2;
+    --link-hover-color: #28231d;
     --spacing-s: 0.5rem;
     --spacing-m: 1rem;
     --spacing-l: 1.5rem;
     --spacing-xl: 2rem;
     --spacing-xxl: 8rem;
-    --border-radius: 0.4rem;
+    --border-radius: 1rem;
 }
 
 
@@ -88,6 +90,36 @@ dialog {
     font-weight: bold;
 }
 
+
+/* Board styling */
+.board  {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, minmax(100px, 150px));
+    grid-template-rows: repeat(3, minmax(100px, 150px));
+    gap: var(--spacing-m);
+    padding: var(--spacing-xxl) calc(var(--spacing-xxl) * 4);
+}
+
+.cell {
+    background-color: var(--cell-background-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 2rem;
+}
+
+.cell .text {
+    height: 50%;
+}
+
+.cell:hover {
+    border-radius: 20px;
+    transform: scale(1.05);
+    background-color: rgb(233, 233, 233);
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.096);
+}
 
 /* Footer styling */
 .footer {
