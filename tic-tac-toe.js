@@ -19,7 +19,12 @@ const gameBoard = (function () {
         alert(board[row][column].getValue());
     }
 
-    return {getBoard, dropToken};
+    const printBoard = () => {
+        const boardWithCellValue = board.map((row) => row.map((cell) => cell.getValue()));
+        console.log(boardWithCellValue)
+    }
+
+    return {getBoard, dropToken, printBoard};
 })();
 
 
@@ -55,4 +60,6 @@ const gameController = (function (playerOneName = "Player One", playerTwoName = 
     }
 
     const getActivePlayer = () => activePlayer;
+
+
 })();
