@@ -1,10 +1,13 @@
 const gameBoard = (function () {
     const columns_rows = 3;
     const board = [];
-    for (let i = 0; i < columns_rows; i++) {
-        board[i] = [];
-        for (let j = 0; j < columns_rows; j++) {
-            board[i].push(cell());
+
+    const createBoard = () => {
+        for (let i = 0; i < columns_rows; i++) {
+            board[i] = [];
+            for (let j = 0; j < columns_rows; j++) {
+                board[i].push(cell());
+            }
         }
     }
 
@@ -41,7 +44,7 @@ const gameBoard = (function () {
         }
     }
 
-    return {getBoard, dropToken, printBoard, checkWin};
+    return {createBoard, getBoard, dropToken, printBoard, checkWin};
 })();
 
 
@@ -72,6 +75,8 @@ const gameController = (function (playerOneName = "Player One", playerTwoName = 
 
     let activePlayer = players[0];
 
+    gameBoard.createBoard();
+
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
@@ -89,6 +94,7 @@ const gameController = (function (playerOneName = "Player One", playerTwoName = 
 
         if (gameBoard.checkWin(getActivePlayer().token)) {
             console.log(`${getActivePlayer().name} wins!`);
+            gameBoard.createBoard();
             return;
         }
 
