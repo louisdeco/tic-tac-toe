@@ -1,5 +1,3 @@
-const player1 = 1;
-
 const gameBoard = (function () {
     const columns_rows = 3;
     const board = [];
@@ -12,10 +10,10 @@ const gameBoard = (function () {
 
     const getBoard = () => board;
 
-    const dropToken = (row, column) => {
+    const dropToken = (row, column, player) => {
         if (board[row][column] < 1) return;
 
-        board[row][column].addToken(player1);
+        board[row][column].addToken(player);
         alert(board[row][column].getValue());
     }
 
@@ -24,7 +22,26 @@ const gameBoard = (function () {
         console.log(boardWithCellValue)
     }
 
-    return {getBoard, dropToken, printBoard};
+    const checkWin = (player) => {
+        for (let i = 0; i < columns_rows; i++) {
+            if (board[i][0].getValue() == player && board[i][1].getValue() == player && board[i][2].getValue() == player) {
+                return true;
+            }
+            if (board[0][i].getValue() == player && board[1][i].getValue() == player && board[2][i].getValue() == player) {
+                return true;
+            }
+        }
+
+        if (board[0][0].getValue() == player && board[1][1].getValue() == player && board[2][2].getValue() == player) {
+            return true;
+        }
+
+        if (board[0][2].getValue() == player && board[1][1].getValue() == player && board[2][0].getValue() == player) {
+            return true;
+        }
+    }
+
+    return {getBoard, dropToken, printBoard, checkWin};
 })();
 
 
@@ -61,5 +78,27 @@ const gameController = (function (playerOneName = "Player One", playerTwoName = 
 
     const getActivePlayer = () => activePlayer;
 
+    const printNewRound = () => {
+        gameBoard.printBoard();
+        console.log(`${getActivePlayer().name}'s turn.`);
+    }
 
+    const playRound = (row, column) => {
+        console.log(`Dropping ${getActivePlayer().name} into row ${row + 1} and column ${column + 1}.`);
+        gameBoard.dropToken(row, column, getActivePlayer().token);
+
+        if (gameBoard.checkWin(getActivePlayer().token)) {
+            console.log(`${getActivePlayer().name} wins!`);
+            return;
+        }
+
+        switchPlayerTurn();
+        printNewRound();
+    };
+
+    printNewRound();
+
+    return {
+        playRound,
+    };
 })();
