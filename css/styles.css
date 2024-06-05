@@ -57,7 +57,9 @@ dialog {
 
 :root {
     font-family: "Rubik", sans-serif;
-    --background-color: white;
+    /* --background-color: white; */
+    --background-color: #faf7f7;
+    --elements-background-color: white;
     --cell-background-color: #f2f2f2;
     --link-hover-color: #28231d;
     --spacing-s: 0.5rem;
@@ -71,7 +73,7 @@ dialog {
 
 .grid-wrapper {
     display: grid;
-    grid-template-rows: auto 15fr 1fr;
+    grid-template-rows: auto 2fr 10fr 1fr;
     height: 100vh;
     background-color: var(--background-color);
 }
@@ -91,14 +93,39 @@ dialog {
 }
 
 
+/* Player's turn styling */
+.turn {
+    display: flex;
+    gap: var(--spacing-xl);
+    justify-content: center;
+    align-items: end;
+    position: relative;
+}
+
+.player {
+    background-color: #fcfafa;
+    box-shadow: 0 0 20px 0.5px rgba(0, 0, 0, 0.048);
+    padding: var(--spacing-s) var(--spacing-xl);
+    border-radius: 2.5rem;
+    font-weight: 550;
+    font-size: calc(0.8rem + 0.8vw);
+}
+
+.active {
+    background-color: rgb(255, 185, 176);
+    box-shadow: 0px 0px 20px 1px rgb(255, 185, 176);
+}
+
+
 /* Board styling */
 .board  {
     display: grid;
     justify-content: center;
-    grid-template-columns: repeat(3, minmax(100px, 150px));
-    grid-template-rows: repeat(3, minmax(100px, 150px));
+    grid-template-columns: repeat(3, minmax(75px, 125px));
+    grid-template-rows: repeat(3, minmax(75px, 125px));
     gap: var(--spacing-m);
-    padding: var(--spacing-xxl) calc(var(--spacing-xxl) * 4);
+    padding-top: var(--spacing-xl);
+    background-color: var(--background-color);
 }
 
 .cell {
@@ -110,8 +137,9 @@ dialog {
     padding: 2rem 2rem;
 }
 
-.cell .text {
-    height: 50%;
+.cell {
+    font-weight: bold;
+    font-size: 3rem;
 }
 
 .cell:hover {
@@ -120,6 +148,7 @@ dialog {
     background-color: rgb(233, 233, 233);
     box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.096);
 }
+
 
 /* Footer styling */
 .footer {
