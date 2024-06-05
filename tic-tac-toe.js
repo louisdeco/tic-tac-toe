@@ -14,7 +14,7 @@ const gameBoard = (function () {
     const getBoard = () => board;
 
     const dropToken = (row, column, player) => {
-        if (board[row][column].getValue() > 0) return false;
+        if (board[row][column].getValue() !== "") return false;
 
         board[row][column].addToken(player);
         return true;
@@ -45,7 +45,7 @@ const gameBoard = (function () {
     }
 
     const checkTie = () => {
-        const hasEmptyCell = board.some(row => row.some(cell => cell.getValue() === 0));
+        const hasEmptyCell = board.some(row => row.some(cell => cell.getValue() === ""));
         return !hasEmptyCell;
     }
 
@@ -54,7 +54,7 @@ const gameBoard = (function () {
 
 
 function cell() {
-    let value = 0;
+    let value = "";
 
     const addToken = (player) => {
         value = player;
@@ -70,11 +70,11 @@ const gameController = (function (playerOneName = "Player One", playerTwoName = 
     const players = [
         {
             name: playerOneName,
-            token: 1
+            token: "X"
         },
         {
             name: playerTwoName,
-            token: 2
+            token: "O"
         }
     ];
 
@@ -110,12 +110,9 @@ const gameController = (function (playerOneName = "Player One", playerTwoName = 
                 return "tie";
             }
             switchPlayerTurn();
-            // screenController.updatePlayer(getActivePlayer())
             printNewRound();
         }
     };
-    // screenController.updatePlayer(getActivePlayer())
-    // printNewRound();
 
     return {
         playRound,
