@@ -57,7 +57,6 @@ dialog {
 
 :root {
     font-family: "Rubik", sans-serif;
-    /* --background-color: white; */
     --background-color: #faf7f7;
     --elements-background-color: white;
     --cell-background-color: #f2f2f2;
@@ -167,4 +166,25 @@ dialog {
     height: 1.5rem;
     width: 1.5rem;
     flex-shrink: 0;
+}
+
+
+/* End game styling */
+.end-game {
+    width: 100vw;
+    height: 30vh;
+    background-color: #fcfafa;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px 0.5px rgba(0, 0, 0, 0.048);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.message {
+    font-weight: bold;
+    font-size: calc(2.5rem + 1vw);
 }
