@@ -66,7 +66,7 @@ function cell() {
 }
 
 
-const gameController = (function (playerOneName = "Player One", playerTwoName = "Player 2") {
+const gameController = (function (playerOneName = "Player One", playerTwoName = "Player Two") {
     const players = [
         {
             name: playerOneName,
@@ -109,15 +109,68 @@ const gameController = (function (playerOneName = "Player One", playerTwoName = 
                 gameBoard.createBoard();
                 return;
             }
-    
             switchPlayerTurn();
+            // screenController.updatePlayer(getActivePlayer())
             printNewRound();
         }
     };
-
-    printNewRound();
+    // screenController.updatePlayer(getActivePlayer())
+    // printNewRound();
 
     return {
         playRound,
+        getActivePlayer
     };
 })();
+
+
+const screenController = (function () {
+    const player1 = document.querySelector(".player1");
+    const player2 = document.querySelector(".player2");
+    const boardDiv = document.querySelector(".board");
+    const cells = document.querySelectorAll(".cell")
+    
+
+    const updatePlayer = () => {
+        let activePlayer = gameController.getActivePlayer();
+        if (activePlayer.name === "Player One") {
+            player2.classList.remove("active");
+            player1.classList.add("active");
+        }
+        else if (activePlayer.name === "Player Two") {
+            player1.classList.remove("active");
+            player2.classList.add("active");
+        }
+    }
+
+    const updateBoard = () => {
+        const board = gameBoard.getBoard();
+        cells.forEach(cell => {
+            const row = parseInt(cell.dataset.row)
+            const column = parseInt(cell.dataset.col)
+            cell.textContent = board[row][column].getValue();
+        })
+    
+    }
+
+    const playWithBoard = () => {
+        boardDiv.addEventListener("click", (event) => {
+
+            if (event.target.className === "cell") {
+                const row = event.target.getAttribute("data-row")
+                const column = event.target.getAttribute("data-col")
+
+                gameController.playRound(row, column)
+                updateBoard()
+            }
+        })
+    }
+
+    const playGame = () => {
+        updatePlayer()
+        playWithBoard()
+    }
+
+playGame()
+
+})()
