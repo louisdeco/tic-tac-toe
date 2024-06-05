@@ -76,7 +76,7 @@ const gameController = (function (playerOneName = "Player One", playerTwoName = 
             name: playerTwoName,
             token: 2
         }
-    ]
+    ];
 
     let activePlayer = players[0];
 
@@ -101,13 +101,13 @@ const gameController = (function (playerOneName = "Player One", playerTwoName = 
             if (gameBoard.checkWin(getActivePlayer().token)) {
                 console.log(`${getActivePlayer().name} wins!`);
                 gameBoard.createBoard();
-                return;
+                return "win";
             }
     
             else if (gameBoard.checkTie()) {
                 console.log("It's a tie!");
                 gameBoard.createBoard();
-                return;
+                return "tie";
             }
             switchPlayerTurn();
             // screenController.updatePlayer(getActivePlayer())
@@ -128,7 +128,8 @@ const screenController = (function () {
     const player1 = document.querySelector(".player1");
     const player2 = document.querySelector(".player2");
     const boardDiv = document.querySelector(".board");
-    const cells = document.querySelectorAll(".cell")
+    const cells = document.querySelectorAll(".cell");
+    const dialog = document.querySelector("dialog");
     
 
     const updatePlayer = () => {
@@ -145,9 +146,10 @@ const screenController = (function () {
 
     const updateBoard = () => {
         const board = gameBoard.getBoard();
+
         cells.forEach(cell => {
-            const row = parseInt(cell.dataset.row)
-            const column = parseInt(cell.dataset.col)
+            const row = parseInt(cell.dataset.row);
+            const column = parseInt(cell.dataset.col);
             cell.textContent = board[row][column].getValue();
         })
     
@@ -157,19 +159,31 @@ const screenController = (function () {
         boardDiv.addEventListener("click", (event) => {
 
             if (event.target.className === "cell") {
-                const row = event.target.getAttribute("data-row")
-                const column = event.target.getAttribute("data-col")
+                const row = event.target.getAttribute("data-row");
+                const column = event.target.getAttribute("data-col");
 
-                gameController.playRound(row, column)
-                updateBoard()
+                const playRound = gameController.playRound(row, column);
+
+                if (playRound === "win") {
+                    const winner = gameController.getActivePlayer().name.toUpperCase();
+                    dialog.textContent = `${winner} WINS!`;
+                    dialog.showModal();
+                }
+                
+                if (playRound === "tie") {
+                    dialog.textContent = "IT'S A TIE";
+                    dialog.showModal();
+                }
+
+                updateBoard();
                 updatePlayer()
-            }
+            };
         })
     }
 
     const playGame = () => {
-        updatePlayer()
-        playWithBoard()
+        updatePlayer();
+        playWithBoard();
     }
 
 playGame()
