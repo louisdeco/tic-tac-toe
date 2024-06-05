@@ -50,6 +50,8 @@ a {
 
 dialog {
     border: none;
+    outline: none;
+    max-width: 100%;
 }
 
 
@@ -170,21 +172,35 @@ dialog {
 
 
 /* End game styling */
-.end-game {
+dialog[open] {
+    opacity: 1;
+    transform:translate(-50%, -50%) scale(1);
+}
+
+dialog{
     width: 100vw;
     height: 30vh;
     background-color: #fcfafa;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 20px 0.5px rgba(0, 0, 0, 0.048);
+    transform: translate(-50%, -50%) scale(0);
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.message {
+    transition: 0.2s ease-in-out;
     font-weight: bold;
     font-size: calc(2.5rem + 1vw);
+}
+
+@starting-style {
+    dialog[open] {
+        opacity:0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+}
+
+::backdrop {
+    background-color: #3F3F3F;
+    opacity: 70%;
 }
