@@ -162,6 +162,7 @@ const screenController = (function () {
 
                 gameController.playRound(row, column)
                 updateBoard()
+                updatePlayer()
             }
         })
     }
